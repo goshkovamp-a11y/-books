@@ -2,16 +2,110 @@
 #cart-wrap { max-width: 800px; margin: 0 auto; }
 input.cart, button.cart { border: 0; padding: 10px; color: #fff; background: #d32828; cursor: pointer; }
 
-/* PRODUCTS GRID */
-#cart-products { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; padding: 10px; }
-.p-item { position: relative; }
-.p-img { width: 100%; }
-.p-info { display: flex; align-items: center; position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: rgba(0,0,0,0.6); }
-.p-txt { flex-grow: 1; color: #fff; }
-.p-name { font-weight: 700; font-size: 1.1em; }
-.p-desc { font-size: 0.9em; }
-.p-price { font-size: 1em; margin-top: 2px; }
-.p-add { font-size: 1em; }
+#cart-wrap * { 
+  font-family: Arial, sans-serif; 
+  box-sizing: border-box; 
+}
+
+#cart-wrap { 
+  max-width: 800px; 
+  margin: 0 auto; 
+}
+
+input.cart, button.cart { 
+  border: 0; 
+  padding: 10px; 
+  color: #fff; 
+  background: #d32828; 
+  cursor: pointer; 
+}
+
+/* PRODUCTS GRID — уменьшено */
+#cart-products { 
+  display: grid; 
+  grid-template-columns: repeat(2,1fr); 
+  gap: 6px; 
+  padding: 6px; 
+}
+
+.p-item { 
+  position: relative; 
+}
+
+.p-img { 
+  width: 100%; 
+  height: 140px;
+  object-fit: cover;
+}
+
+.p-info { 
+  display: flex; 
+  align-items: center; 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  padding: 6px; 
+  background: rgba(0,0,0,0.6); 
+}
+
+.p-txt { 
+  flex-grow: 1; 
+  color: #fff; 
+}
+
+.p-name { 
+  font-weight: 700; 
+  font-size: 0.9em; 
+}
+
+.p-desc { 
+  font-size: 0.75em; 
+}
+
+.p-price { 
+  font-size: 0.8em; 
+  margin-top: 2px; 
+}
+
+.p-add { 
+  font-size: 0.9em; 
+  padding: 5px 8px;
+}
+
+/* CART ITEMS — НЕ ТРОГАЕМ */
+#cart-items { padding: 10px; }
+
+.c-item { 
+  display: flex; 
+  align-items: center; 
+  padding: 10px; 
+  background: #f2f2f2; 
+}
+
+.c-item:nth-child(even){ background:#fff;}
+
+.c-qty{ 
+  width:60px; 
+  padding:5px; 
+  margin-right:10px; 
+}
+
+.c-name{ 
+  flex-grow:1; 
+  padding:0 5px; 
+}
+
+.c-del{ 
+  font-size:1.2em; 
+  margin-left:5px;
+}
+
+.c-total{ 
+  padding:10px; 
+  font-weight:700; 
+  background:#ffe9e9; 
+}
 
 /* CART ITEMS */
 #cart-items { padding: 10px; }
