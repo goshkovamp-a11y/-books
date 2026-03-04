@@ -54,6 +54,7 @@ checkout: () => {
     alert("Корзина пуста");
     return;
   }
+  
   // Параметры Robokassa
   const merchantLogin = "Techsoprovozhdenie";
   const password1 = "OJH2T3GWP5rRJpcm7b9g"; // тестовый пароль
