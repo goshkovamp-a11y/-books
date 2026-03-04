@@ -20,18 +20,29 @@ input.cart, button.cart {
 #cart-products { 
   display: grid; 
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px; 
-  padding: 4px; 
+  gap: 16px; /* увеличиваем расстояние между книгами */
+  padding: 16px; 
 }
 
 .p-item { 
   position: relative; 
+  background: #fff; /* чтобы каждый товар был в отдельном "контейнере" */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.3s, box-shadow 0.3s; /* анимация при наведении */
+}
+
+/* эффект увеличения при наведении */
+.p-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 
 .p-img { 
   width: 100%; 
-  height: auto;           /* ← исходные пропорции изображения */
-  display: block;         /* убираем зазор под картинкой */
+  height: auto;           
+  display: block;         
 }
 
 .p-info { 
@@ -39,7 +50,7 @@ input.cart, button.cart {
   bottom: 0; 
   left: 0; 
   width: 100%; 
-  padding: 4px; 
+  padding: 8px; 
   background: rgba(0,0,0,0.65); 
   display: flex;
   align-items: flex-start;
