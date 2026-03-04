@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Подборка книг</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="cart.css">
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+</head>
+<body>
+  <h1 style="text-align:center;">Любители русского языка</h1>
+
+  <div id="cart-wrap">
+    <div id="cart-products"></div>
+    <div id="cart-items"></div>
+  </div>
+
+  <!-- Bottom cart icon -->
+  <div id="cart-bottom" style="position: fixed; bottom: 16px; right: 16px; text-align: center;">
+    <img src="images/корзина.png" alt="Корзина" width="64" height="64">
+    <div id="cart-count">0</div>
+  </div>
+
+  <!-- Templates -->
+  <template id="template-product">
+    <div class="p-item">
+      <img class="p-img">
+      <div class="p-info">
+        <div class="p-txt">
+          <div class="p-name"></div>
+          <div class="p-desc"></div>
+          <div class="p-price"></div>
+        </div>
+        <button class="cart p-add">Купить</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-cart">
+    <div class="c-item">
+      <input class="c-qty" type="number" min="0">
+      <div class="c-name"></div>
+      <button class="c-del cart">X</button>
+    </div>
+  </template>
+
+  <template id="template-cart-checkout">
+    <div class="c-go">
+      <button class="c-empty cart" onclick="cart.nuke()">Очистить</button>
+      <button class="c-checkout cart" onclick="cart.checkout()">Оплатить</button>
+    </div>
+  </template>
+</body>
+</html>
