@@ -48,20 +48,32 @@ var cart = {
     alert("Корзина пуста");
     return;
   }
+checkout: () => {
+  // Проверка, что корзина не пустая
+  if (Object.keys(cart.items).length === 0) {
+    alert("Корзина пуста");
+    return;
+  }
+  // Параметры Robokassa
+  const merchantLogin = "Techsoprovozhdenie";
+  const password1 = "OJH2T3GWP5rRJpcm7b9g"; // тестовый пароль
+  const outSum = cart.total.toFixed(2);      // сумма корзины из корзины
+  const invId = Date.now();                  // уникальный ID заказа
+  let description = "Оплата книг: ";
 
-const merchantLogin = "Techsoprovozhdenie";
-const password1 = "OJH2T3GWP5rRJpcm7b9g"; // тестовый пароль
-const outSum = 100; // сумма для теста
-const invId = Date.now(); // уникальный ID
-const description = "Тестовая оплата книг"; // описание заказа
+  // Формируем описание заказа (список товаров и кол-во)
+  for (let id in cart.items) {
+    const p = products[id];
+    description += `${p.name} (${cart.items[id]} шт.), `;
+  }
+  description = description.slice(0, -2); // убираем последнюю запятую
 
-// Формируем MD5-подпись
-const signature = md5(`${merchantLogin}:${outSum}:${invId}:${password1}`);
+  // Формируем MD5 подпись
+  const signature = md5(`${merchantLogin}:${outSum}:${invId}:${password1}`);
 
-// Тестовая ссылка Robokassa
-const url = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${invId}&Description=${encodeURIComponent(description)}&SignatureValue=${signature}&IsTest=1`;
+  // Тестовая ссылка Robokassa
+  const url = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${invId}&Description=${encodeURIComponent(description)}&SignatureValue=${signature}&IsTest=1`;
 
-// Открываем в новом окне
-window.open(url, "_blank");
-};
-window.addEventListener("DOMContentLoaded",cart.init);
+  // Переходим на страницу оплаты
+  window.open(url, "_blank");
+}
