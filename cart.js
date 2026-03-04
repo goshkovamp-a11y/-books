@@ -20,51 +20,72 @@ var cart = {
     cart.load(); cart.list();
   },
 
- add: id => {
-  cart.items[id] = cart.items[id] ? cart.items[id] + 1 : 1;
-  cart.save();
-  cart.list();
-
-  // Сделать кнопку темной
+ // Обновление состояния кнопок "Купить"
+cart.updateButtons = () => {
   const buttons = document.querySelectorAll(".p-add");
   buttons.forEach(btn => {
     const pItem = btn.closest(".p-item");
     if (!pItem) return;
     const name = pItem.querySelector(".p-name").textContent;
-    if (name === products[id].name) {
-      btn.style.background = "#7a0000"; // тёмно-красный
+
+    // Найти id продукта по имени
+    let productId = null;
+    for (let id in products) {
+      if (products[id].name === name) {
+        productId = id;
+        break;
+      }
+    }
+    if (!productId) return;
+
+    // Если товар в корзине, кнопка темная, иначе исходная
+    if (cart.items[productId]) {
+      btn.style.background = "#7a0000";
+      btn.style.color = "#fff";
+    } else {
+      btn.style.background = "#d32828";
       btn.style.color = "#fff";
     }
   });
-},
+};
 
-list: () => {
+cart.add = id => {
+  cart.items[id] = cart.items[id] ? cart.items[id] + 1 : 1;
+  cart.save();
+  cart.list();
+  cart.updateButtons(); // обновляем кнопки
+};
+
+cart.remove = id => {
+  delete cart.items[id];
+  cart.save();
+  cart.list();
+  cart.updateButtons(); // обновляем кнопки
+};
+
+cart.nuke = () => {
+  if (confirm("Очистить корзину?")) {
+    cart.items = {};
+    localStorage.removeItem("cart");
+    cart.list();
+    cart.updateButtons(); // обновляем кнопки
+  }
+};
+
+// В list() убираем все, что меняло кнопки, теперь только total и корзина
+cart.list = () => {
   cart.total = 0;
   cart.hItems.innerHTML = "";
-  let empty = true;
-  for (let key in cart.items) { if (cart.items.hasOwnProperty(key)) { empty = false; break; } }
+  let empty = Object.keys(cart.items).length === 0;
 
-  if (empty) { 
-    cart.hItems.innerHTML = "Корзина пуста"; 
+  if (empty) {
+    cart.hItems.innerHTML = "Корзина пуста";
   } else {
     let template = document.getElementById("template-cart").content, p, item;
     for (let id in cart.items) {
       p = products[id];
       item = template.cloneNode(true);
-      item.querySelector(".c-del").onclick = () => {
-        cart.remove(id);
-        // вернуть кнопку в нормальное состояние
-        const buttons = document.querySelectorAll(".p-add");
-        buttons.forEach(btn => {
-          const pItem = btn.closest(".p-item");
-          if (!pItem) return;
-          const name = pItem.querySelector(".p-name").textContent;
-          if (name === products[id].name) {
-            btn.style.background = "#d32828"; // исходный красный
-            btn.style.color = "#fff";
-          }
-        });
-      };
+      item.querySelector(".c-del").onclick = () => cart.remove(id);
       item.querySelector(".c-name").textContent = p.name;
       item.querySelector(".c-qty").value = cart.items[id];
       item.querySelector(".c-qty").onchange = function () { cart.change(id, this.value); };
@@ -73,7 +94,8 @@ list: () => {
     }
 
     item = document.createElement("div");
-    item.className = "c-total"; item.id = "c-total";
+    item.className = "c-total";
+    item.id = "c-total";
     item.innerHTML = `ИТОГ: ${cart.currency}${cart.total}`;
     cart.hItems.appendChild(item);
 
@@ -81,11 +103,8 @@ list: () => {
     cart.hItems.appendChild(item);
   }
 
-  // обновление значка корзины
-  let count = 0; for (let id in cart.items) { count += cart.items[id]; }
-  document.getElementById("cart-count").textContent = count;
-},
-
+  document.getElementById("cart-count").textContent = Object.values(cart.items).reduce((a,b)=>a+b,0);
+};
   checkout: () => {
     if (Object.keys(cart.items).length === 0) { alert("Корзина пуста"); return; }
 
