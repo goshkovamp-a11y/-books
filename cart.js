@@ -75,5 +75,6 @@ checkout: () => {
   const url = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchantLogin}&OutSum=${outSum}&InvId=${invId}&Description=${encodeURIComponent(description)}&SignatureValue=${signature}&IsTest=1`;
 
   // Переходим на страницу оплаты
-  window.open(url, "_blank");
-}
+  window.open(url, "_blank");}
+    };
+window.addEventListener("DOMContentLoaded",cart.init);
